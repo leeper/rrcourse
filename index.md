@@ -12,5 +12,5 @@ The IMC short course involves a morning lecture and an afternoon hands-on sessio
 ---
 ## Why GitHub? ##
 
-Read more about why this course is on GitHub [here](fork.html). You can access [the GitHub repository here](https://github.com/leeper/Rcourse).
+Read more about why this course is on GitHub [here](fork.html). You can access [the GitHub repository here](https://github.com/leeper/rrcourse).
 

@@ -1,0 +1,13 @@
+\documentclass[a4, 12pt]{article}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+
+%opening
+\title{Introduction to knitr}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\end{document}

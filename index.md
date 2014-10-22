@@ -13,9 +13,7 @@ The IMC short course involves a morning lecture and an afternoon hands-on sessio
 
 In this session, we will discuss reproducible research from the dual perspectives of simplifying one's research work and forwarding the multi-disciplinary push for #openscience. It will lay out why reproducible science matters and how to achieve it.
 
-<!--
 [Slides](Slides/WhatWhyHow.pdf)
--->
 
 ## Creating a Reproducible Scientific Workflow with R, LaTeX, and knitr (Afternoon Session) ##
 

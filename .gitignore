@@ -8,4 +8,6 @@
 *.snm
 *.toc
 *.synctex.gz
+*.bbl
+*.blg
 # files to ignore #

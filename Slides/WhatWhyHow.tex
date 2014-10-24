@@ -109,7 +109,7 @@
 \section{What?}
 \frame{\tableofcontents[currentsection]}
 
-\frame{
+\frame<1-3>[label=what]{
     \frametitle{So what is reproducible research?}
     \begin{itemize}\itemsep2em
         \item<2-> Evolving standards and technology
@@ -120,54 +120,94 @@
 
 
 \frame{
-    \frametitle{American Association for Public Opinion Research ``Disclosure Standars''}
+    \frametitle{American Association for Public Opinion Research\footnote[frame]{\href{http://www.aapor.org/disclosure_standards1.htm}{``Disclosure Standards''}}}
+    Researchers must publish:
+    \begin{enumerate}\itemsep1em
+    	\item Research sponsor
+    	\item Question wordings
+    	\item Population, sampling frame, and sampling desng
+    	\item Sample sizes and margins of error
+    	\item Dates of data collection
+    \end{enumerate}
 }
 
 
 \frame{
-    \frametitle{American Political Science Association ``A Guide to Professional Ethics in Political Science''}
+    \frametitle{American Psychological Assoc.\footnote[frame]{\href{http://www.apa.org/ethics/code/index.aspx}{``Ethical Principles of Psychologists and Code of Conduct''}}}
+    \begin{itemize}
+    	%\item ``Psychologists create, and to the extent the records are under their control, maintain, disseminate, store, retain and dispose of records and data relating to their professional and scientific work in order to (1) facilitate provision of services later by them or by other professionals, (2) allow for replication of research design and analyses, (3) meet institutional requirements, (4) ensure accuracy of billing and payments, and (5) ensure compliance with law.'' (6.01)
+    	\item ``After research results are published, \textbf{psychologists do not withhold the data on which their conclusions are based from other competent professionals who seek to verify the substantive claims through reanalysis and who intend to use such data only for that purpose}, provided that the confidentiality of the participants can be protected and unless legal rights concerning proprietary data preclude their release\dots'' (8.14a)
+    	%\item ``Psychologists who request data from other psychologists to verify the substantive claims through reanalysis may use shared data only for the declared purpose. Requesting psychologists obtain prior written agreement for all other uses of the data.'' (8.14b)
+    \end{itemize}
 }
 
 \frame{
-    \frametitle{American Psychological Association ``Ethical Principles of Psychologists and Code of Conduct''}
+    \frametitle{Assoc. for Psychological Science\footnote[frame]{\href{http://www.psychologicalscience.org/index.php/publications/journals/psychological\_science/ps-submissions\#DISC}{``Submission Guidelines''}}}
+    \begin{enumerate}\itemsep2em
+    	\item Sample sizes and exclusion criteria
+    	\item Report all manipulations used
+    	\item Report all outcomes analyzed
+    \end{enumerate}
 }
 
 \frame{
-    \frametitle{Association for Psychological Science ``Submission Guidelines''}  
+    \frametitle{American Anthropological Association\footnote[frame]{\href{http://www.aaanet.org/issues/policy-advocacy/upload/AAA-Ethics-Code-2009.pdf}{``Code of Ethics''}}}
+    \begin{itemize}
+    	\item ``Anthropological researchers should seriously consider all reasonable requests for access to their data and other research materials for purposes of research. They should also make every effort to insure preservation of their fieldwork data for use by posterity.''
+    \end{itemize}
 }
 
 \frame{
-    \frametitle{American Anthropological Association ``Code of Ethics''}
-}
-
-\frame{
-    \frametitle{CONSORT Group ``CONSORT Statement''}
-}
-
-
-\frame{
-    \frametitle{European Research Council ``Open Access Guidelines for researchers funded by the ERC''}
-}
-
-\frame{
-    \frametitle{PLoS ``Editorial and Publishing Policies''}
+    \frametitle{CONSORT Group\footnote[frame]{\href{http://www.consort-statement.org/consort-2010}{``CONSORT Statement''}}}
+    \begin{itemize}
+    	\item ``The checklist includes the 25 items selected because empirical evidence indicates that not reporting the information is associated with biased estimates of treatment effect, or because the information is essential to judge the reliability or relevance of the findings.''
+    	\item No requirement for open data or analyses
+    \end{itemize}
 }
 
 
+\frame{
+	\frametitle{American Political Science Assoc.\footnote[frame]{\href{http://www.apsanet.org/Files/Publications/APSAEthicsGuide2012.pdf}{``A Guide to Professional Ethics in Political Science''}}}
+	\begin{itemize}
+		\item ``When statements that are challenged are based on reproducible data authors  are obliged to facilitate replication.'' (5.5)
+		\item ``Researchers making evidence-based knowledge claims should reference the data they used to make those claims. If these are data they themselves generated or collected, researchers should provide access to those data or explain why they cannot.'' (5.6)
+		\item ``Production transparency'' (6.2)
+		\item ``Analytic transparency'' (6.3)
+	\end{itemize}
+}
+
+\frame{
+	\frametitle{European Research Council\footnote[frame]{\href{http://erc.europa.eu/sites/default/files/document/file/ERC\_Open\_Access\_Guidelines-revised\_2013.pdf}{``Open Access Guidelines for researchers funded by the ERC''}}}
+	\begin{itemize}
+		\item ``The European Research Council supports the basic principle of Open Access to research data. It therefore recommends to all its funded researchers that they follow best practice by retaining files of all the research data they have used during the course of their work, and that they be prepared to share this data with other researchers whenever it is not bound by copyright restrictions, by confidentiality agreements, or by contractual clauses.''
+	\end{itemize}
+}
+
 
 
 \frame{
-    \frametitle{Irreproducibility}
+    \frametitle{PLoS\footnote[frame]{\href{http://www.plosone.org/static/policies.action\#sharing}{``Editorial and Publishing Policies''}}}
+    \begin{itemize}\itemsep2em
+    	\item ``Publication is conditional upon the agreement of the authors to make freely available any materials and information described in their publication that may be reasonably requested by others.''
+    	\item Software created for use in publications must be open source
+    \end{itemize}
+}
+
+\againframe<3-4>{what}
+
+
+\frame{
+    \frametitle{\textit{Ir}reproducibility}
     \begin{itemize}\itemsep0.25em
-        \item<1-> Fabrication
-        \item<2-> Human error
-        \item<3-> Lack of methodological transparency
-        \item<4-> Ambiguous data citations
-        \item<5-> Proprietary data and file formats
-        \item<6-> Unavailable data
-        \item<7-> Analysis uses proprietary software/hardware
-        \item<8-> Analysis unavailable
-        \item<9-> ``Available from the author \only<10->{(now deceased)}'' 
+        \item<2-> Fabrication
+        \item<3-> Human error
+        \item<4-> Lack of methodological transparency
+        \item<5-> Ambiguous data citations
+        \item<6-> Proprietary data and file formats
+        \item<7-> Unavailable data
+        \item<8-> Analysis uses proprietary software/hardware
+        \item<9-> Analysis unavailable
+        \item<10-> ``Available from the author\only<11->{ (now deceased)}'' 
     \end{itemize}
 }
 
@@ -217,7 +257,7 @@
 
 \frame{
     \begin{center}
-        \visible<1>{\textbf{Past}} \hspace{5em} \visible<2>{\textbf{Present}} \hspace{5em} \visible<3>{\textbf{Future}}
+        {\noindent\Large\visible<1>{\textbf{Past}} \hspace{2em} \visible<2>{\textbf{Present}} \hspace{2em} \visible<3>{\textbf{Future}}}
     \end{center}
     \only<1>{
     \begin{itemize}\itemsep2em
@@ -241,6 +281,7 @@
         \item Open lab notebooks
         \item Persistent, archived, open-licensed data
         \item Open source software
+        \item Open peer review
         \item Open access publication
         \item Literate, reproducible output
     \end{itemize}
@@ -259,6 +300,15 @@
         \onslide<2>{Always think about your future self!}
     \end{center}
 }
+
+\frame{
+	\begin{center}
+		\includegraphics[height=.9\textheight]{images/futureself} % http://xkcd.com/1421/
+	\end{center}
+}
+
+
+
 
 \frame<1>[label=notebook]{
     \frametitle{(1) Write Everything Down}

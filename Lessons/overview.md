@@ -98,6 +98,7 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
       (3) Confirm that all dependent variables or measures that were analyzed for this article’s target research question have been reported in the Methods section(s). [  ]
       (4) Confirm that (a) how sample size was determined and (b) your data-collection stopping rule have been reported in the Method section(s) [  ] and provide the page number(s) on which this information appears in your manuscript:
       Authors will also be required to enter the page number(s) on which their sample size/stopping rule information appears in their manuscript, and they must also copy and paste from their manuscript the sentence(s) that explain(s) how the sample size was determined and the stopping rule."
+     
      - American Psychological Association "Ethical Principles of Psychologists and Code of Conduct" (http://www.apa.org/ethics/code/index.aspx)
        "Psychologists create, and to the extent the records are under their control, maintain, disseminate, store, retain and dispose of records and data relating to their professional and scientific work in order to (1) facilitate provision of services later by them or by other professionals, (2) allow for replication of research design and analyses, (3) meet institutional requirements, (4) ensure accuracy of billing and payments, and (5) ensure compliance with law." (6.01)
        "After research results are published, psychologists do not withhold the data on which their conclusions are based from other competent professionals who seek to verify the substantive claims through reanalysis and who intend to use such data only for that purpose, provided that the confidentiality of the participants can be protected and unless legal rights concerning proprietary data preclude their release. This does not preclude psychologists from requiring that such individuals or groups be responsible for costs associated with the provision of such information." (8.14a)
@@ -108,6 +109,7 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
      - CONSORT "CONSORT Statement" (http://www.consort-statement.org/consort-2010)
        "The checklist includes the 25 items selected because empirical evidence indicates that not reporting the information is associated with biased estimates of treatment effect, or because the information is essential to judge the reliability or relevance of the findings."
        Does not require data access or reproducible analyses, but does require published research protocol and study preregistration
+     
      - PLoS "Editorial and Publishing Policies" (http://www.plosone.org/static/policies.action#sharing)
        "Publication is conditional upon the agreement of the authors to make freely available any materials and information described in their publication that may be reasonably requested by others." 
        Three allowed forms: "Data deposition", "data in supporting information files", "Data made available to all interested researchers upon request", and "Data available from third party"

@@ -1,0 +1,25 @@
+\documentclass{article}
+
+\title{My First LaTeX Document}
+\author{Thomas J. Leeper}
+
+
+\begin{document}
+
+\maketitle
+
+This is where my article goes.
+
+\section{Methods}
+
+Here are my methods.
+
+\section{Results}
+
+Here are my results.
+
+<<>>=
+summary(lm(mpg ~ cyl + hp + wt, data = mtcars))
+@
+
+\end{document}

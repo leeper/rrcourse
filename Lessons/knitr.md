@@ -6,12 +6,6 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
 
 # knitr #
 
- - Why reproducibility?
-   - "Collaboration with others, including your future self"
-   - Collaboration: much easier to collaborate when your work is reproducible
-   - Future you: much easier to remember what you did and update when your work is reproducible
-   - The scientific community: much easier to have others reproduce or replicate your work, giving your work credibility
-   
  - Comparison of workflows
    - Traditional workflow
    - Reproducible workflow
@@ -21,14 +15,33 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
      
  - Basics of knitr
    - History
+     - WEB and noweb
+     - S becomes R
      - SWeave
+     - knitr
    - Markup formats and output formats
-   - 
+     - LaTeX
+     - HTML
+     - Markdown
+   - Why LaTeX? Why knitr?
+     - Automation
+     - Easy collaboration with future self
+     - Easy collaboration with others
+     - BibTeX integration
+     - LaTeX style files
+   - Structure of a LaTeX document
+   - Structure of a knitr document
+   - Workflows
+     - Bad: Run results and copy-paste
+     - Good: Run results in R and then embed in LaTeX
+     - Good: Work natively in .Rnw with embedded code chunks
+     - Good: Work natively in .Rnw with code externalization
  
  - Your first knitr document
  
- - `knit`ing and `purl`ing
- 
+ - Setting up RStudio
+   - http://yihui.name/knitr/demo/rstudio/
+
  - Chunk options
    - chunk names
    - `eval`
@@ -36,8 +49,20 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
    - `hold`
    - `warning`, `error`, `message`
    - `tidy` and `highlight`
-   - Chunk caching
-     - `dependson`
+ 
+ - Code externalization
+   - Using same source in multiple documents (article and presentation)
+   - Child documents
+   - Reading chunks
+   
+ - `knit`ing and `purl`ing
+ 
+ - In-line knitr expressions
+ 
+ - Tables
+   - `kable`
+   - `xtable`
+   - `stargazer`
  
  - Plotting
    - `fig.path`
@@ -47,20 +72,16 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
    - `fig.cap`
    - `fig.lp`
    
- 
- - In-line knitr expressions
- 
- - Code externalization
-   - Using same source in multiple documents (article and presentation)
-   - Child documents
-   - Reading chunks
-   
  - `spin`ing
+ 
+ - Chunk caching
+   - `dependson`
  
  - Language engines
    - python
    - Bash
    - Julia
+   - Stata?
    
  - Other tools
    - Git

@@ -12,8 +12,6 @@
 *.blg
 
 # files to ignore #
-Activities/templates/*.*
-!Activities/templates/*.Rnw
 Activities/*.*
 !Activities/*.tex
 !Activities/*.pdf

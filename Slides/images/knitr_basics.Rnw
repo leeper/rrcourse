@@ -1,0 +1,14 @@
+\documentclass{article}
+
+\begin{document}
+
+Here is a code chunk.
+
+<<>>=
+a <- 1+1
+a
+@
+
+You can also write inline expressions, \Sexpr{a}.
+
+\end{document}

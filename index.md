@@ -21,15 +21,8 @@ The afternoon session applies the principles from the morning talk using a concr
 
 The afternoon session will make use of [RStudio](http://www.rstudio.com/products/RStudio/#Desk), an integrated development environment (IDE) for the R language. Please download and install RStudio on your own machine before the session starts. RStudio allows you to seamlessly move between raw R scripts, LaTeX documents, and the knitr literate programming documents that integrate R and LaTeX. RStudio should work for you out of the box, but you will need to configure RStudio to use knitr. To do so, install knitr by typing: `install.packages("knitr")` in the RStudio console. Then, [follow directions described here](http://yihui.name/knitr/demo/rstudio/) to configure RStudio to use knitr (instead of the default Sweave engine).
 
-<!--
-Slides:
- - [Introduction to LaTeX](Slides/latex.pdf)
- - [Introduction to knitr](Slides/knitr.pdf)
- - [Figures](Slides/knitr-figures.pdf)
- - [Tables](Slides/knitr-tables.pdf)
- - [Where's my code?](Slides/knitr-codehandling.pdf)
- - [Tables](Slides/knitr-caching.pdf)
--->
+ - [Slides](Slides/knitr.pdf) (Draft)
+ - Handout (Coming soon)
 
 ---
 ## Why GitHub? ##

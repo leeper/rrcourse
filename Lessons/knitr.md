@@ -42,6 +42,10 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
  - Setting up RStudio
    - http://yihui.name/knitr/demo/rstudio/
 
+ - Code chunks
+   - Reusing code chunks
+   - In-line knitr expressions
+   
  - Chunk options
    - chunk names
    - `eval`
@@ -49,40 +53,150 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
    - `hold`
    - `warning`, `error`, `message`
    - `tidy` and `highlight`
+ - Document-level options
+   - `opts_chunk$set()`
+   - `opts_knit$set()`
+ 
+ - `knit`ing and `purl`ing
  
  - Code externalization
    - Using same source in multiple documents (article and presentation)
+     - Typically, a lot of copy-paste
+     - Use one script that generates output, referenced explicitly in each output
+     - `purl` article and rerun code in a presentation
+     - This: Code in an R script and read chunks into article and presentation
    - Child documents
+     - Parent
+       - Complete document
+       - Include a chunk with a `child` argument
+     - Child document is just a chunk
+       - <<test-child, out.width='2in'>>=
+         str(mtcars)
+         @
    - Reading chunks
+     - read_chunk("script.R")
+     - read_chunk("script.R", labels = "a")
+     - Reference chunk labels in subsequent chunks
    
- - `knit`ing and `purl`ing
- 
- - In-line knitr expressions
- 
- - Tables
-   - `kable`
-   - `xtable`
-   - `stargazer`
- 
- - Plotting
-   - `fig.path`
-   - `fig.show`
-   - `dev` and `dev.args`
-   - `fig.height` and `fig.width`
-   - `fig.cap`
-   - `fig.lp`
-   
- - `spin`ing
- 
  - Chunk caching
    - `dependson`
  
- - Language engines
-   - python
-   - Bash
-   - Julia
-   - Stata?
+ - Plotting
+   - `fig.path`
+     - Default is './figure'
+     - May want to setup as '../figure' for use in other outputs
+   - `fig.show`
+     - 'asis'
+     - 'hold'
+     - 'animate'
+     - 'hide'
+   - `dev` and `dev.args`
+     - 'pdf' is default, but 'png' or 'postscript' might also be okay
+   - `fig.height` and `fig.width`
+     - sizes in inches
+     - 1 in == 2.54 cm
+   - `fig.env`: LaTeX environment
+   - `fig.cap`: LaTeX caption
+   - `fig.lp`: LaTeX label
    
+ - Tables
+   - Three functions
+     - `kable`
+       - Note: Does not embed tables in a float environment
+     - `xtable`
+     - `stargazer`
+   - Include using `library`
+     - suppressMessages(library("stargazer"))
+   - Printing raw data
+     - kable(mtcars, "latex")
+     - xtable(mtcars)
+   - Printing summary statistics for a dataframe
+     - stargazer(mtcars)
+   - Printing tables and crosstables
+     - xtable(table(mtcars$cyl))
+     - kable(with(mtcars, table(cyl, gear)), "latex")
+     - xtable(with(mtcars, table(cyl, gear)))
+     - Customization
+       - kable(with(mtcars, table(cyl, gear)), "latex", caption = "Simple Crosstabulation")
+       - xtable(with(mtcars, table(cyl, gear)), caption = "Simple Crosstabulation", label = "tab:crosstab")
+   - Matrices
+     - kable(cor(mtcars), "latex", digits = 2)
+     - cormat <- cor(mtcars)
+       xtable(`[<-`(cormat, lower.tri(cormat), NA), digits = 2)
+   - Model objects
+     - m1 <- lm(mpg ~ cyl + hp, data = mtcars)
+       stargazer(m1)
+     - m2 <- lm(mpg ~ cyl + hp + gear + carb, data = mtcars)
+       m3 <- lm(mpg ~ cyl * hp + gear + carb, data = mtcars)
+       stargazer(m1, m2, m3)
+   - Customization
+     - kable
+       - format: latex
+       - digits
+       - row.names
+       - col.names
+       - align
+       - caption
+     - xtable
+       - caption
+       - label
+       - align
+       - digits
+       - print.xtable options
+         - file
+         - floating
+         - floating.environment
+         - hline.after
+         - NA.string
+         - include.rownames
+         - include.colnames
+         - sanitize.text.function
+         - booktabs
+     - stargazer
+       - title
+       - label
+       - out: file to print to
+       - column.labels
+       - covariate.labels
+       - digits
+       - float
+       - float.env
+       - model.names: logical indicating whether to print model type
+       - model.numbers: logical indicating whether models should be numbered
+       - dep.var.label
+       - dep.var.caption
+       - dep.var.labels.include: logical whether to include 
+       - multi.column: logical indicating whether to span column headers
+       - keep.stat
+         - "all": all statistics
+         - "adj.rsq": adjusted R-squared
+         - "aic": Akaike Information Criterion
+         - "bic": Bayesian Information Criterion
+         - "chi2": chi-squared
+         - "f": F statistic
+         - "ll": log-likelihood
+         - "logrank": score (logrank) test
+         - "lr": likelihood ratio (LR) test
+         - "max.rsq": maximum R-squared
+         - "n": number of observations
+         - "null.dev": null deviance
+         - "Mills": Inverse Mills Ratio
+         - "res.dev": residual deviance
+         - "rho": rho
+         - "rsq": R-squared
+         - "scale": scale
+         - "theta": theta
+         - "ser": standard error of the regression (i.e., residual standard error)
+         - "sigma2": sigma squared
+         - "ubre": Un-Biased Risk Estimator
+         - "wald": Wald test
+       - style
+         - "default" coefficients and standard errors, plus common summary statistics
+         - "commadefault": European decimal printing
+         - Other Journal-specific styles
+
+ - `spin`ing
+ 
  - Other tools
    - Git
    - GitHub, Bitbucket, etc.
@@ -90,7 +204,6 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
    - pandoc
    - markdown
    - RStudio
-   - A good LaTeX editor: LyX, Eclipse, Texmaker, WinEdt, TexStudio, TeXLive, TeXWorks, Emacs, etc., etc.
    - devtools, repmis, packrat, checkpoint
    - docker, disk images, and virtual machines
    

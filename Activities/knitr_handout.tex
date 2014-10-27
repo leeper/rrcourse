@@ -1,23 +1,287 @@
-\documentclass[a4]{article}
-\usepackage[margins=2cm]{geometry}
+\documentclass[11pt, a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{setspace}
+\usepackage{alltt}
+\usepackage{verbatim}
+\usepackage{booktabs}
+\usepackage{mdwlist}
+\usepackage[hidelinks]{hyperref}
 
 \title{Notes on Reproducible Research with knitr}
 \date{}
 
 \begin{document}
 
+\maketitle
+\onehalfspacing
 
 \section*{General knitr Chunk Options}
 
+How each code chunk is handled during \texttt{knit}-ing depends on \textit{chunk options} that control the behavior and appearance of each chunk. The main chunk options are:
+
+\begin{itemize*}
+    \item \texttt{eval}: Whether the chunk should be evaluated
+    \item \texttt{echo}: Whether the code contained in the chunk should be displayed in the PDF
+    \item \texttt{results}: 
+        \begin{itemize*}
+            \item ``markup'' (default): Results are displayed like in the R console
+            \item ``asis'': Used for any chunk containing LaTeX output (e.g., tables)
+            \item \texttt{hold}: All results are held until the end of the chunk (versus displayed line-by-line)
+            \item ``hide'': Results are not displayed
+        \end{itemize*}
+    \item \texttt{warning} and \texttt{message}: Whether to suppress warnings and messages
+    \item \texttt{tidy} and \texttt{highlight}: Whether R code should be tidied and syntax highlighted, respectively
+\end{itemize*}
+
+\noindent Chunk options can be set in each chunk:
+
+\begin{alltt}
+<<a, eval = TRUE, echo = FALSE>>=
+2 + 2
+@
+\end{alltt}
+
+\vspace{1em}
+\noindent Or, they can be set globally inside a ``setup'' chunk that applies options to all other chunks:
+\begin{alltt}
+<<a, eval = TRUE, echo = FALSE>>=
+opts\_chunk\$set(echo = FALSE, cache = TRUE, message = FALSE)
+@
+\end{alltt}
+
+
+\vspace{1em}
+\section*{General knitr Package Options}
+
+knitr also allows you to specify some \textit{package options} to control the behavior of knitr in general. These are probably not helpful to beginners, but may be useful for advanced users. You can find a list of these options at \href{http://yihui.name/knitr/options#package_options}{http://yihui.name/knitr/options\#package\_options}.
+
+
+\clearpage
 \section*{knitr Plotting}
 
-\section*{knitr Tables}
+There are two ways to include plots in a knitr workflow. One involves using manual includes of plots that are generated in a chunk, saved locally, and then included using \verb|\includegraphics{}|, for example:
 
+\begin{verbatim}
+<<>>=
+pdf('figures/barplot.pdf')
+barplot(mtcars$cyl)
+dev.off()
+@
+
+\begin{figure}
+\caption{A barplot}
+\label{fig:barplot}
+\includegraphics{figures/barplot}
+\end{figure}
+\end{verbatim}
+
+\noindent The alternative is to specify figure-related options and let knitr handle the details:
+
+\begin{verbatim}
+<<fig.cap='A barplot', fig.lp='fig:barplot'>>=
+barplot(mtcars$cyl)
+@
+\end{verbatim}
+
+\noindent The figure-relevant options useful for controlling the behavior of a knitr plot chunk are:
+
+\begin{itemize}
+    \item \texttt{fig.path}: The path to store and retrieve figures from (default is \texttt{./figure})
+    \item \texttt{fig.show}
+        \begin{itemize*}
+            \item \texttt{asis}: All plots are rendered line-by-line
+            \item \texttt{hold}: All plots are held until the end of the chunk
+            \item \texttt{animate}: Plot(s) converted into an animation (doesn't work in all PDF viewers)
+            \item \texttt{hide}: Plot(s) not shown
+        \end{itemize*}
+    \item \texttt{fig.height} and \texttt{fig.width}
+    \item \LaTeX-related options
+        \begin{itemize*}
+            \item \texttt{fig.env}: \LaTeX figure environment to use
+            \item \texttt{fig.cap}: \LaTeX caption
+            \item \texttt{fig.lp}: \LaTeX label (for cross-referencing)
+        \end{itemize*}
+    \item \texttt{dev}
+        \begin{itemize*}
+            \item \texttt{dev.args}: A list containing arguments passed to the graphics device function
+        \end{itemize*}
+\end{itemize}
+
+
+\clearpage
+\section*{\LaTeX{} Tables}
+
+Tables are created in \LaTeX{} using the \texttt{tabular} environment:\\
+
+\vspace{2em}
+
+\begin{minipage}{.45\textwidth}
+\begin{verbatim}
+\begin{tabular}{l r r} \toprule
+Header 1 & Header 2 & Header 3\\
+\midrule
+Row 1 \\
+Row 2 \\ \bottomrule
+\end{tabular}
+\end{verbatim}
+
+\end{minipage}
+\begin{minipage}{.45\textwidth}
+
+\begin{tabular}{l r r} \toprule
+Header 1 & Header 2 & Header 3\\ \midrule
+Row 1 & & \\
+Row 2 & & \\ \bottomrule
+\end{tabular}
+
+\end{minipage}
+
+\vspace{2em}
+
+\noindent By default, a \texttt{tabular} environment will appear in the document exactly where in occurs in the \LaTeX{} source. In most academic writing, we'll additionally want to include this \texttt{tabular} environment inside a \texttt{table} environment, which is a \textit{float} environment that will cause the table to be displayed at the top or bottom of an appropriate page. This matters because we can only cross-reference tables if they are in a float environment and contain a \texttt{label}. For example:
+
+\begin{verbatim}
+\begin{table}
+\caption{This is the table's title}
+\label{tab:simple}
+\begin{tabular}{l r r} \toprule
+Header 1 & Header 2 & Header 3\\
+\midrule
+Row 1 \\
+Row 2 \\ \bottomrule
+\end{tabular}
+\end{table}
+\end{verbatim}
+
+\noindent Using that, we can then refer to the table anywhere in our document using \verb|Table \ref{tab:simple}| and it will be replaced by ``Table 1'' (and the number will be automatically updated depending on the table's location in the document).
+
+\subsection*{Creating Tables}
+
+You can mock-up your own \LaTeX{} tables by-hand, but it is much easier to use R packages to produce that \LaTeX{} code automatically. This applies even if you don't plan to use knitr in your workflow. You can use R package to write \LaTeX{} output to a local file (e.g., \texttt{table.tex}) and then include that table in your article using: \verb|\input{table.tex}|, wherever you want the table to appear in your document.
+
+\vspace{1em}
+\noindent The following sections detail how to create tables using three popular packages. The \href{http://cran.r-project.org/web/views/ReproducibleResearch.html}{Reproducible Research TaskView on CRAN} lists functionality found in other packages for creating \LaTeX{}-formatted output.
+
+\clearpage
 \subsection*{\texttt{kable}: Simple tables}
 
+\texttt{kable} from the knitr package is an easy way to create simple tables without a float environment. For example, we can use \texttt{kable} to print a simple correlation matrix with something like:\\
+\verb|kable(cor(mtcars), "latex")|
+
+\noindent \texttt{kable} includes a few options to control appearance:
+\begin{itemize}
+\item \texttt{format}: This will always be ``latex'' for our purposes
+\item \texttt{digits}: How many digits to print in a numeric table
+\item \texttt{row.names}, \texttt{col.names}: Whether to include row or column names for a table
+\item \texttt{align}: A vector of alignments for the table columns
+\end{itemize}
+
+\vspace{1em}
 \subsection*{\texttt{xtable}: Generic table creation}
 
+\texttt{xtable} from the \texttt{xtable} package is a much more powerful (and thus complicated) function for create simple tables (with or without float environments). For example we can use it to create one- or more-way tabulations using, e.g., \verb|xtable(table(mtcars$cyl))| or \verb|xtable(with(mtcars, table(cyl, gear)))|. There are a number of options that can be specified for \texttt{xtable}:
+
+\begin{itemize}
+\item \texttt{caption}: A \LaTeX{} caption
+\item \texttt{label}: A \LaTeX{} label for cross-referencing
+\item \texttt{align}: A vector of column alignments
+\item \texttt{digits}: How many digits to print in a numeric table
+\end{itemize}
+
+\noindent \texttt{xtable} is also a little confusing because it includes options for its \texttt{print} method that further control the appearance of tables, such as the float environment for the table. These options are called within \texttt{print}, but outside of \texttt{xtable}, e.g.: \verb|print(xtable(table(mtcars$cyl)), floating = FALSE)| produces a table with no float environment.
+
+\begin{itemize}
+\item \texttt{file}: A file path to write the table to
+\item \texttt{floating}: Whether to include the table in a float environment
+\item \texttt{floating.environment}: What float environment to use (\texttt{table}, by default)
+\item \texttt{hline.after}: Where to place horizontal lines in the table
+\item \texttt{NA.string}: How missing values (\texttt{NA}'s) should be displayed
+\item \texttt{include.rownames}, \texttt{include.colnames}: Whether to include row and column names
+\item \texttt{sanitize.text.function}: A function to handle \LaTeX{}-incompatible text strings
+\item \texttt{booktabs}: Whether to use the \LaTeX{} \texttt{booktabs} package for more attractive tables
+\end{itemize}
+
+
+\pagebreak
 \subsection*{\texttt{stargazer}: Tables for model objects}
+
+\texttt{stargazer} from the stargazer package is useful for creating tables for model objects (e.g., regression results). While \texttt{xtable} can also do this, \texttt{stargazer} does it more elegantly by aligning variables from multiple models and better controlling printing of supplemental information (e.g., goodness-of-fit statistics). This produces a simple two-model output:\\ \verb|stargazer(lm(mpg ~ cyl, data = mtcars), lm(mpg ~ cyl + hp, data = mtcars))|\\Output can be controlled using many options, some of which are shown below:
+
+\begin{itemize}
+\item \texttt{title}: A \LaTeX{} caption
+\item \texttt{label}: A \LaTeX{} label for cross-referencing
+\item \texttt{out}: A file path to print the table to
+\item \texttt{column.labels}: Labels for the model columns
+\item \texttt{covariate.labels}: Labels to replace covariate variable names. (Note: This requires some care.)
+\item \texttt{digits}: How many digits to print in the table
+\item \texttt{float}: Whether to include the table in a float environment
+\item \texttt{float.env}: What float environment to use (\texttt{table}, by default)
+\item \texttt{model.names}: Whether to print type of model for each column
+\item \texttt{model.numbers}: Whether to number the models
+\item \texttt{dep.var.caption}: The caption for the dependent variables
+\item \texttt{dep.var.labels.include}: Whether to include dependent variable labels
+\item \texttt{multi.column}: Whether to span column headers across like columns
+\item \texttt{keep.stat}: A vector of named statistics to include in the table:\\``all'', all statistics; ``adj.rsq'', adjusted R-squared; ``aic'', Akaike Information Criterion; ``bic'', Bayesian Information Criterion; ``chi2'', chi-squared; ``f'', F statistic; ``ll'', log-likelihood; ``logrank'', score (logrank) test; ``lr'', likelihood ratio (LR) test; ``max.rsq'', maximum R-squared; ``n'', number of observations; ``null.dev'', null deviance; ``Mills'', Inverse Mills Ratio; ``res.dev'', residual deviance; ``rho'', rho; ``rsq'', R-squared; ``scale'', scale; ``theta'', theta; ``ser'', standard error of the regression (i.e., residual standard error); ``sigma2'', sigma squared; ``ubre'', Un-Biased Risk Estimator; ``wald'', Wald test.
+\vspace{1em}
+\item \texttt{style}: A character string naming a journal style. Includes some common social science journal formats.
+\end{itemize}
+
+
+\clearpage
+\section*{Working with knitr}
+
+The best way to learn knitr is to use it. I would recommend you try one of the following activities:
+
+\begin{enumerate}
+    \item Migrate one of your existing projects to knitr, either:
+        \begin{itemize}
+            \item Move R code into knitr code chunks
+            \item Move all code into one chunk and configure automated \LaTeX{} includes for the results.
+        \end{itemize}
+    \item Setup the knitr template for a new project you haven't started
+    \item Try creating a knitr document for a toy analysis project
+\end{enumerate}
+
+\vspace{1em}
+\subsection*{Ideas for Toy Analysis Project}
+
+Use one of R's built-in datasets (just type \texttt{data()} in the RStudio console) to conduct a simple analysis in a knitr workflow. 
+
+\begin{itemize}
+\item Possible datasets might include: \texttt{iris}, \texttt{mtcars}, \texttt{ChickWeight}, and \texttt{infert}
+\item Run descriptive analyses that can be summarized in tables and included using \texttt{kable} or \texttt{xtable}
+\item Run basic plots (\texttt{hist}, \texttt{barplot}, \texttt{plot}) and include those using knitr plot options
+\item Run some regression models (e.g., \texttt{lm}, \texttt{glm}, etc.) and include the results using \texttt{stargazer}
+\item Reference tables and figures in the text using \LaTeX{} cross-references (i.e., \verb|\ref{}|)
+\item Reference particular analytic results using in-line code (i.e., \verb|\Sexpr{}|)
+\end{itemize}
+
+\noindent Here are some basic code examples to get you started using these datasets:
+
+\singlespacing
+\begin{verbatim}
+# basic summary statistics
+head(iris) # some of the raw data
+summary(iris) # variable descriptive statistics
+
+# plots
+plot(infert[,1:4]) # multivariate correlation plot
+hist(infert$age) # histogram of age
+plot(density(iris$Sepal.Length)) # density plot
+with(iris, plot(Sepal.Length, Sepal.Width)) # scatterplot
+
+# tables
+cor(iris[,1:4])
+table(infert$education)
+with(infert, table(age, education))
+with(infert, table(education, induced))
+
+# models
+aov(Sepal.Length ~ Species, data = iris) # ANOVA (use `xtable`)
+lm(Sepal.Length ~ Sepal.Width * Species, data = iris) # OLS
+glm(case ~ education + age + induced + spontaneous, data = infert) # Logit
+
+\end{verbatim}
 
 
 \end{document}

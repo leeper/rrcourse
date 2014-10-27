@@ -136,7 +136,6 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
        - row.names
        - col.names
        - align
-       - caption
      - xtable
        - caption
        - label
@@ -196,14 +195,3 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
          - Other Journal-specific styles
 
  - `spin`ing
- 
- - Other tools
-   - Git
-   - GitHub, Bitbucket, etc.
-   - Dropbox
-   - pandoc
-   - markdown
-   - RStudio
-   - devtools, repmis, packrat, checkpoint
-   - docker, disk images, and virtual machines
-   

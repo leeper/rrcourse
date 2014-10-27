@@ -120,6 +120,30 @@
 	% https://pbs.twimg.com/media/BvBO1s0IQAA5tDw.png:large
 }
 
+
+\frame{
+	\frametitle{Workflows for knitr}
+	\begin{center}
+	\begin{tabular}{lcc}
+		                & \textbf{Analysis} & \textbf{Output} \\ \midrule
+		Irreproducible  &         R         &   Copy-paste    \\[1em]
+		No knitr        &         R         & Manual includes \\[1em]
+		Finish in knitr &         R         &  Load and knit  \\[1em]
+		All knitr       &       knitr       &       n/a       \\[1em] \bottomrule
+	\end{tabular}
+	\end{center}
+}
+
+\frame{
+	\frametitle{Workflows for knitr\footnote{Image by \href{http://www.twitter.com/AriBFriedman}{Ari B. Friedman}}}
+	\includegraphics[width=\textwidth, trim = 0in 2in 0in 1.5in, clip]{images/knitrworkflow}
+	% https://pbs.twimg.com/media/BvBUPapCUAIYMhW.png:large
+}
+
+
+\section{knitr in Depth}
+\frame{\tableofcontents[currentsection]}
+
 \frame{
 	\frametitle{knitr Input}
 	\includegraphics[width=\textwidth]{images/knitr-basic-knitr}	
@@ -135,28 +159,6 @@
 	\includegraphics[width=\textwidth]{images/knitr-basic-latex}
 }
 
-\frame{
-	\frametitle{Workflows for knitr}
-	\begin{center}
-	\begin{tabular}{lcc}
-		                        & \textbf{Analysis} & \textbf{Output}  \\ \midrule
-		Irreproducible &                 R &      Copy-paste \\[1em]
-		No knitr                &                 R & Manual includes  \\[1em]
-		Output only             &                 R &   Load and knit  \\[1em]
-		Full knitr              &             knitr &             n/a \\[1em] \bottomrule
-	\end{tabular}
-	\end{center}
-}
-
-\frame{
-	\frametitle{Workflows for knitr\footnote{Image by \href{http://www.twitter.com/AriBFriedman}{Ari B. Friedman}}}
-	\includegraphics[width=\textwidth, trim = 0in 2in 0in 1.5in, clip]{images/knitrworkflow}
-	% https://pbs.twimg.com/media/BvBUPapCUAIYMhW.png:large
-}
-
-
-\section{knitr in Depth}
-\frame{\tableofcontents[currentsection]}
 
 \frame{
 	\frametitle{Code Chunks}
@@ -179,27 +181,45 @@
 
 \frame{
 	\frametitle{Code Chunks: Anatomy}
-	% \includegraphics[width=\textwidth]{images/codechunk}
-	% higlight parts of code chunk
+	{\large
+	\begin{alltt}
+	{\color<2>{red}<<}{\color<4>{red}a},{\color<5-6>{red}eval=TRUE},{\color<5,7>{red}echo=FALSE},{\color<5,8>{red}results='asis'}{\color<2>{red}>>=}
+	
+	{\color<3>{red} a <- 1+1\\a}
+	
+	{\color<2>{red}@}
+	\end{alltt}
+	}
+}
+
+
+
+\frame{
+	\frametitle{Code Chunks: Options}
+	\begin{itemize}\itemsep1.5em
+		\item \texttt{echo}
+		\item \texttt{eval}
+		\item \texttt{results}
+		\item \texttt{hold}
+		\item \texttt{tidy} and \texttt{highlight}
+		\item \texttt{warning} and \texttt{message}
+	\end{itemize}
 }
 
 \frame{
 	\frametitle{Code Chunks: Options}
 	\begin{itemize}\itemsep2em
-		\item \texttt{echo}
-		\item \texttt{eval}
-		\item \texttt{hold}
-		\item \texttt{tidy} and \texttt{highlight}
-		\item \texttt{error}, \texttt{warning}, \texttt{message}
+		\item Chunk options can be set for each chunk
+		\item They can also be set globally in a document
+    	\item E.g., \texttt{opts\_chunk\$set(echo = FALSE)}
 	\end{itemize}
 }
-
 
 \frame{
 	\frametitle{Code Chunks: Inline Code}
 	\begin{itemize}\itemsep2em
 		\item In addition to chunks, code can be written in-line
-		\item Anything in \texttt{\\Sexpr{}} is evaluated
+		\item Anything in \texttt{$\backslash$Sexpr\{\}} is evaluated
 		\item Useful for in-line reporting of analyses
 	\end{itemize}
 }
@@ -224,36 +244,63 @@
 	\frametitle{Chunk Caching}
 	\begin{itemize}\itemsep2em
 		\item knitr runs every chunk every time
+		\item This is unnecessary if you're making non-code changes
+		\item Can be time-consuming
 		\item The \texttt{cache} chunk option changes this
-		\item Cached chunks are only run after changes
 	\end{itemize}
 }
 
 \frame{
 	\frametitle{Chunk Caching: How it Works}
+	\begin{itemize}\itemsep2em
+		\item Set \texttt{cache=TRUE} to \textit{cache} a chunk
+		\item knitr stores the chunk and its results
+    		\begin{itemize}
+        		\item Stored in .RData files in \texttt{./cache}
+    		\end{itemize}
+		\item Cached chunks are only run after changes
+    		\begin{itemize}
+        		\item Substantive and non-substantive changes
+    		\end{itemize}
+		\item Behavior depends on relations between chunks
+	\end{itemize}
 }
 
 \frame{
 	\frametitle{Chunk Caching: Chunk Dependencies}
+	\begin{itemize}\itemsep2em
+		\item Cached chunks are only rerun if modified
+		\item But chunks might depend on other chunks
+    		\begin{itemize}
+        		\item B depends on cached A
+        		\item Cached B depends on A
+        		\item Cached B depends on cached A
+    		\end{itemize}
+    	\item Specify dependencies with \texttt{dependson}
+        	\begin{itemize}
+            	\item Or: \texttt{opts\_chunk\$set(cache=TRUE, autodep=TRUE)}
+        	\end{itemize}
+	\end{itemize}
 }
 
 
 \frame{
 	\frametitle{Figures}
-	\begin{itemize}
+	\begin{itemize}\itemsep1em
 		\item Two ways to include figures:
 		\item Using knitr chunk options for figures
 			\begin{itemize}
 				\item Handles lots of details automatically
 				\item Takes work to customize
 			\end{itemize}
-		\item Manually using \texttt{\\includegraphics}
+		\item Manually using \texttt{$\backslash$includegraphics\{\}}
 			\begin{itemize}
 				\item Somewhat finer control
 				\item Requires more LaTeX overhead
 			\end{itemize}
 	\end{itemize}
 }
+
 
 \frame{
 	\frametitle{Tables}
@@ -266,6 +313,16 @@
 			\item \texttt{xtable}
 			\item \texttt{stargazer}
 		\end{itemize}
+	\end{itemize}
+}
+
+
+\frame{
+	\frametitle{Porting a Project to knitr}
+	\begin{itemize}\itemsep2em
+		\item Move existing R code into a knitr framework
+		\item What code chunks and in-line expressions do you need
+		\item How do you create tables and figures?
 	\end{itemize}
 }
 
@@ -320,6 +377,9 @@
 	\end{itemize}
 }
 
+\section{Wrapup}
+\frame{\tableofcontents[currentsection]}
+
 
 \frame{
 	\frametitle{Wrapup}
@@ -353,9 +413,12 @@
 \frame{
 	\frametitle{Other Reproducible Research Tools}
 	\begin{itemize}\itemsep1em
-		\item \href{http://git-scm.com/}{Git}: Version control
-		\item \href{https://github.com/}{GitHub} and \href{https://bitbucket.org/}{Bitbucket}: Git cloud services\footnote{\href{http://thomasleeper.com/2014/07/git-bitbucket-word-collaboration/}{``Collaborating with Git and Bitbucket''}}
-		\item \href{http://johnmacfarlane.net/pandoc/}{Pandoc}: Command-line tool to convert documents between formats
+		\item \href{http://git-scm.com/}{git}: Version control
+		\item \href{https://github.com/}{GitHub} and \href{https://bitbucket.org/}{Bitbucket}: Git cloud services
+    		\begin{itemize}
+    		\item Good for collaboration\footnote{\href{http://thomasleeper.com/2014/07/git-bitbucket-word-collaboration/}{See ``Collaborating with Git and Bitbucket''}}
+    		\end{itemize}
+		\item \href{http://johnmacfarlane.net/pandoc/}{pandoc}: Command-line tool to convert documents between formats
 		\item Tools for R package versioning
 			\begin{itemize}
 				\item \href{http://cran.r-project.org/web/packages/devtools/index.html}{devtools}

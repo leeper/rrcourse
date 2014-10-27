@@ -77,10 +77,18 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
      - read_chunk("script.R")
      - read_chunk("script.R", labels = "a")
      - Reference chunk labels in subsequent chunks
-   
+
+## ---- label
+
+## @knitr label
+
+
+     
  - Chunk caching
    - `dependson`
  
+
+
  - Plotting
    - `fig.path`
      - Default is './figure'
@@ -131,67 +139,7 @@ ghurl: https://github.com/leeper/rrcourse/tree/gh-pages
        stargazer(m1, m2, m3)
    - Customization
      - kable
-       - format: latex
-       - digits
-       - row.names
-       - col.names
-       - align
-     - xtable
-       - caption
-       - label
-       - align
-       - digits
-       - print.xtable options
-         - file
-         - floating
-         - floating.environment
-         - hline.after
-         - NA.string
-         - include.rownames
-         - include.colnames
-         - sanitize.text.function
-         - booktabs
-     - stargazer
-       - title
-       - label
-       - out: file to print to
-       - column.labels
-       - covariate.labels
-       - digits
-       - float
-       - float.env
-       - model.names: logical indicating whether to print model type
-       - model.numbers: logical indicating whether models should be numbered
-       - dep.var.label
-       - dep.var.caption
-       - dep.var.labels.include: logical whether to include 
-       - multi.column: logical indicating whether to span column headers
-       - keep.stat
-         - "all": all statistics
-         - "adj.rsq": adjusted R-squared
-         - "aic": Akaike Information Criterion
-         - "bic": Bayesian Information Criterion
-         - "chi2": chi-squared
-         - "f": F statistic
-         - "ll": log-likelihood
-         - "logrank": score (logrank) test
-         - "lr": likelihood ratio (LR) test
-         - "max.rsq": maximum R-squared
-         - "n": number of observations
-         - "null.dev": null deviance
-         - "Mills": Inverse Mills Ratio
-         - "res.dev": residual deviance
-         - "rho": rho
-         - "rsq": R-squared
-         - "scale": scale
-         - "theta": theta
-         - "ser": standard error of the regression (i.e., residual standard error)
-         - "sigma2": sigma squared
-         - "ubre": Un-Biased Risk Estimator
-         - "wald": Wald test
-       - style
-         - "default" coefficients and standard errors, plus common summary statistics
-         - "commadefault": European decimal printing
-         - Other Journal-specific styles
 
- - `spin`ing
+     - xtable
+
+     - stargazer

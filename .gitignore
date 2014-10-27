@@ -11,6 +11,7 @@
 *.bbl
 *.blg
 *.Rhistory
+*.vrb
 
 # files to ignore #
 Activities/*.*

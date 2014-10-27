@@ -188,6 +188,12 @@
 	{\color<3>{red} a <- 1+1\\a}
 	
 	{\color<2>{red}@}
+
+	\vspace{1em}
+	
+	\visible<9>{{\color{red}<<a>>=}}
+	
+	\visible<9>{{\color{red}@}}
 	\end{alltt}
 	}
 }
@@ -223,20 +229,64 @@
 	\end{itemize}
 }
 
-\frame{
-	\frametitle{Externalization}
+\frame<1-2>[label=external]{
+	\frametitle{Code Externalization}
 	\begin{itemize}\itemsep2em
 		\item Possible to \textit{externalize} R code
-		\item ``Child'' documents
+		\item<2-> ``Child'' documents
 			\begin{itemize}
-				\item Code chunks in separate file
+				\item<2-> knitr code chunks in separate file
 			\end{itemize}
-		\item Reading code chunks 
+		\item<3-> Reading code from file
 			\begin{itemize}
-				\item Keep code in specially formatted R script
+				\item<3-> Code in specially formatted R script
+				\item<3-> Code remains executable without knitr
 			\end{itemize}
 	\end{itemize}
 }
+
+\begin{frame}[fragile]
+	\frametitle{Child knitr Document}
+	\begin{itemize}\itemsep2em
+		\item Child Document: \texttt{child.Rnw}
+		\begin{verbatim}
+		<<>>=
+		x <- 1:3
+		y <- 4:6
+		@
+		\end{verbatim}		
+		\item Parent Document: \texttt{knitrdoc.Rnw}
+		\begin{verbatim}
+		<<a, child = 'child.Rnw'>>=
+		@
+		\end{verbatim}
+	\end{itemize}
+\end{frame}
+
+\againframe<2-3>{external}
+
+
+\begin{frame}[fragile]
+	\frametitle{External R Script}
+	\begin{itemize}\itemsep2em
+		\item R Script: \texttt{analysis.R}
+		\begin{verbatim}
+		## ---- a
+		x <- 1:3
+		
+		## ---- b
+		y <- 4:6
+		\end{verbatim}		
+		\item knitr Document: \texttt{knitrdoc.Rnw}
+		\begin{verbatim}
+		<<>>=
+		read_chunk('analysis.R')
+		@
+		<<a>>=
+		@
+		\end{verbatim}
+	\end{itemize}
+\end{frame}
 
 
 \frame{
@@ -375,6 +425,20 @@
 		\item No need to store/share a large package directory
 	\end{itemize}
 }
+
+\frame{
+	\frametitle{Package Versioning: Virtual Machines}
+	\begin{itemize}\itemsep2em
+		\item<1-> knitr connects analysis and output
+		\item<2-> \texttt{packrat} or \texttt{checkpoint} connect R and analysis
+		\item<3-> What about the connection between OS and R?
+			\begin{itemize}
+				\item<4-> Virtual machines
+				\item<5-> \href{http://en.wikipedia.org/wiki/Docker_(software)}{Docker}
+			\end{itemize}
+	\end{itemize}
+}
+
 
 \section{Wrapup}
 \frame{\tableofcontents[currentsection]}

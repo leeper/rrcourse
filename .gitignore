@@ -10,6 +10,7 @@
 *.synctex.gz
 *.bbl
 *.blg
+*.Rhistory
 
 # files to ignore #
 Activities/*.*

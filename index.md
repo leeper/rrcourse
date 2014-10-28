@@ -29,8 +29,8 @@ RStudio allows you to seamlessly move between raw R scripts, LaTeX documents, an
 
 ### Materials ###
 
- - [Slides](Slides/knitr.pdf) (Draft)
- - [Handout](Activities/knitr_handout.pdf) (Draft)
+ - [Slides](Slides/knitr.pdf)
+ - [Handout](Activities/knitr_handout.pdf)
 
 ---
 ## Why GitHub? ##

@@ -5,7 +5,7 @@
 \usepackage{verbatim}
 \usepackage{booktabs}
 \usepackage{mdwlist}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 
 \title{Notes on Reproducible Research with knitr}
 \date{}
@@ -22,11 +22,11 @@ How each code chunk is handled during \texttt{knit}-ing depends on \textit{chunk
 \begin{itemize*}
     \item \texttt{eval}: Whether the chunk should be evaluated
     \item \texttt{echo}: Whether the code contained in the chunk should be displayed in the PDF
-    \item \texttt{results}: 
+    \item \texttt{results}: How results are handled. Accepts any of the following:
         \begin{itemize*}
             \item ``markup'' (default): Results are displayed like in the R console
             \item ``asis'': Used for any chunk containing LaTeX output (e.g., tables)
-            \item \texttt{hold}: All results are held until the end of the chunk (versus displayed line-by-line)
+            \item ``hold'': All results are held until the end of the chunk (versus displayed line-by-line)
             \item ``hide'': Results are not displayed
         \end{itemize*}
     \item \texttt{warning} and \texttt{message}: Whether to suppress warnings and messages
@@ -35,19 +35,19 @@ How each code chunk is handled during \texttt{knit}-ing depends on \textit{chunk
 
 \noindent Chunk options can be set in each chunk:
 
-\begin{alltt}
+\begin{verbatim}
 <<a, eval = TRUE, echo = FALSE>>=
 2 + 2
 @
-\end{alltt}
+\end{verbatim}
 
 \vspace{1em}
 \noindent Or, they can be set globally inside a ``setup'' chunk that applies options to all other chunks:
-\begin{alltt}
+\begin{verbatim}
 <<a, eval = TRUE, echo = FALSE>>=
-opts\_chunk\$set(echo = FALSE, cache = TRUE, message = FALSE)
+opts_chunk$set(echo = FALSE, cache = TRUE, message = FALSE)
 @
-\end{alltt}
+\end{verbatim}
 
 
 \vspace{1em}
@@ -87,7 +87,7 @@ barplot(mtcars$cyl)
 
 \begin{itemize}
     \item \texttt{fig.path}: The path to store and retrieve figures from (default is \texttt{./figure})
-    \item \texttt{fig.show}
+    \item \texttt{fig.show}: How to handle plots. Accepts any of the following:
         \begin{itemize*}
             \item \texttt{asis}: All plots are rendered line-by-line
             \item \texttt{hold}: All plots are held until the end of the chunk
@@ -101,7 +101,7 @@ barplot(mtcars$cyl)
             \item \texttt{fig.cap}: \LaTeX caption
             \item \texttt{fig.lp}: \LaTeX label (for cross-referencing)
         \end{itemize*}
-    \item \texttt{dev}
+    \item \texttt{dev}: Which graphics device (file type) to use. Default is ``pdf''
         \begin{itemize*}
             \item \texttt{dev.args}: A list containing arguments passed to the graphics device function
         \end{itemize*}
@@ -188,7 +188,7 @@ You can mock-up your own \LaTeX{} tables by-hand, but it is much easier to use R
 \item \texttt{digits}: How many digits to print in a numeric table
 \end{itemize}
 
-\noindent \texttt{xtable} is also a little confusing because it includes options for its \texttt{print} method that further control the appearance of tables, such as the float environment for the table. These options are called within \texttt{print}, but outside of \texttt{xtable}, e.g.: \verb|print(xtable(table(mtcars$cyl)), floating = FALSE)| produces a table with no float environment.
+\noindent \texttt{xtable} is also a little confusing because it includes options for its \texttt{print} method that further control the appearance of tables, such as the float environment for the table. These options are called within \texttt{print}, but outside of \texttt{xtable}, e.g.: \verb|print(xtable(table(mtcars$cyl)), floating = FALSE)| produces a table with no float environment. These options include:
 
 \begin{itemize}
 \item \texttt{file}: A file path to write the table to
@@ -223,7 +223,7 @@ You can mock-up your own \LaTeX{} tables by-hand, but it is much easier to use R
 \item \texttt{multi.column}: Whether to span column headers across like columns
 \item \texttt{keep.stat}: A vector of named statistics to include in the table:\\``all'', all statistics; ``adj.rsq'', adjusted R-squared; ``aic'', Akaike Information Criterion; ``bic'', Bayesian Information Criterion; ``chi2'', chi-squared; ``f'', F statistic; ``ll'', log-likelihood; ``logrank'', score (logrank) test; ``lr'', likelihood ratio (LR) test; ``max.rsq'', maximum R-squared; ``n'', number of observations; ``null.dev'', null deviance; ``Mills'', Inverse Mills Ratio; ``res.dev'', residual deviance; ``rho'', rho; ``rsq'', R-squared; ``scale'', scale; ``theta'', theta; ``ser'', standard error of the regression (i.e., residual standard error); ``sigma2'', sigma squared; ``ubre'', Un-Biased Risk Estimator; ``wald'', Wald test.
 \vspace{1em}
-\item \texttt{style}: A character string naming a journal style. Includes some common social science journal formats.
+\item \texttt{style}: A character string naming a journal style. Includes some common social science journal formats. This can alleviate the need to specify all of the above.
 \end{itemize}
 
 
@@ -245,7 +245,7 @@ The best way to learn knitr is to use it. I would recommend you try one of the f
 \vspace{1em}
 \subsection*{Ideas for Toy Analysis Project}
 
-Use one of R's built-in datasets (just type \texttt{data()} in the RStudio console) to conduct a simple analysis in a knitr workflow. 
+Use one of R's built-in datasets to conduct a simple analysis in a knitr workflow (just type \texttt{data()} in the RStudio console to see available datasets). 
 
 \begin{itemize}
 \item Possible datasets might include: \texttt{iris}, \texttt{mtcars}, \texttt{ChickWeight}, and \texttt{infert}

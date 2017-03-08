@@ -1,0 +1,162 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{setspace}
+\usepackage{alltt}
+\usepackage{verbatim}
+\usepackage{booktabs}
+\usepackage{mdwlist}
+\usepackage[hidelinks]{hyperref}
+
+\title{Reproducibility for Your Own Benefit}
+\date{}
+
+\begin{document}
+
+\vspace{-4em}
+
+\maketitle
+
+\vspace{-3em}
+
+Reproducible research should be for the researcher's benefit, not a distraction. With that idea in mind, this document walks through the use GitHub, GitKraken, and Rmarkdown even if your only collaboration is with their ``future self''.
+
+\section{GitHub}
+
+GitHub is a widely used platform for open sharing of data, software, analysis code, and other materials. It uses software called \textbf{git}, which a powerful tool for organizing, collaborating on, and version controlling a project. We'll use GitHub to host our example project from OSF and then use git on our own machines to showcase some of its features.
+
+\begin{enumerate*}
+\item Create a GitHub account at \url{https://github.com}
+\item Once setup, push the green \texttt{New repository} button
+\item Given the repository a name. It can be anything. ``nottingham'', ``first-project'', etc.
+\item You can give it a description if you want.
+\item Click \texttt{Create repository}. You're all setup!
+\end{enumerate*}
+
+\section{GitKraken}
+
+\textbf{git} is the software that powers GitHub and which we will use to \textit{version control} our project content, experiment with that content, and possibly introduce collaboration. There are lots of different tools for working with git, the simplest of which is a command-line interface that can be used via Terminal, Command Prompt, bash, etc.\footnote{You can find installation instructions for it here: \url{https://git-scm.com/downloads}} For today's workshop, however, we will use a (free) product called GitKraken that provides a point-and-click interface for git. Set it up as follows:
+
+\begin{enumerate*}
+\item Download GitKraken from \url{https://www.gitkraken.com/} and complete the installation
+\item Open GitKraken and log in using your GitHub login details
+\item Click \texttt{File > Init Repo}
+\item Enter the folder containing the example project as the \texttt{New repository path}
+\item Click \texttt{Create Repository}. You should see all of the project files in green near the centre of the screen.
+\item On the left side, click the \texttt{+} symbol next to \texttt{Remote}
+\item On the pop-up window, click \texttt{URL}.
+\item For \texttt{Name}, type ``GitHub''. For \texttt{Pull URL}, type ``https://github.com/\texttt{user}/\texttt{project}''
+\end{enumerate*}
+
+Now we have a Github ``remote'' repository setup and the local git repository setup with GitKraken. This means we're ready to start working with our project.
+
+\clearpage
+
+\section{git Basics in GitKraken}
+
+Let's put git to work for us identifying when files have changed, recording those changes as \textit{snapshots}, and navigating between versions. To that, we need to know some actions that git can perform. The key idea is that we will create snapshots of our project by \textbf{committing} files to the git repository and those changes will be reflected on Github (and to any collaborators) when we \textbf{push} them. Here's a glossary, which we'll walk through together:
+
+\begin{itemize}
+\item \textbf{stage}: select files to be recorded in a ``snapshot'' of the project
+	\begin{itemize}
+	\item \textbf{unstage}: remove files from the snapshot (but not from your computer)
+	\end{itemize}
+\item \textbf{commit}: record a permanent snapshot of the staged files, labelled with a ``commit message''
+	\begin{itemize}
+	\item \textbf{amend}: modify (typically the most recent) commit with new changes or commit message
+	\end{itemize}
+\item \textbf{branch}: produce a complete local copy of the project where changes can be made independently of the ``master'' branch
+\item \textbf{merge}: update a branch with changes from another local branch (or a collaborator's changes from GitHub); you can change multiple branches independently.
+\item \textbf{push}: send the project (any new commits) to a remote server (like GitHub)
+\item \textbf{pull}: grab new commits from a remote server
+\end{itemize}
+
+GitKraken provides a point-and-click interface for all of these steps, but you can also execute them via the CLI commands \texttt{git add}, \texttt{git commit}, \texttt{git branch}, etc.
+
+\subsection*{Test Yourself}
+
+You get a hang of what git can offer by trying out the following.
+
+\begin{enumerate*}
+\item Stage and commit your files
+\item Change one or more files in any way. See how those changes become ``unstaged''.
+\item Create a new branch to contain these changes.
+\item Stage and commit the changes in the new branch.
+\item Push the new branch to GitHub. See that they show up there.
+\item Merge the changes to the master branch in GitKraken.
+\item Push the changes to the master branch on GitHub.
+\item Change some files through the GitHub web interface. Pull them locally.
+\end{enumerate*}
+
+\subsection*{Key Steps}
+
+Overall, the most essential steps of git are \texttt{pull > stage > commit > push}.
+
+\noindent As a mnemonic device, maybe try ``\textbf{P}eter \textbf{S}hould \textbf{C}ome \textbf{P}romptly''.
+
+
+\clearpage
+\section{Reproducible documents}
+
+Once you've mastered git for managing and tracking your files, another useful set of tools to know relate to reproducible, dynamic documents. We'll use Rmarkdown as an example for this.
+
+\footnotesize 
+\begin{verbatim}
+---
+title: "Money, Happiness and the Midlife Crisis"
+author: "Richard Ball"
+date: 2017-03-08
+output: pdf_document
+---
+
+```{r data, echo=FALSE, results="hide"}
+library("knitr")
+opts_chunk$set(echo=FALSE)
+library("rio")
+library("ggplot2")
+suppressPackageStartupMessages(library("stargazer"))
+country <- rio::import("../Analysis Data/country-analysis.dta")
+individual <- rio::import("../Analysis Data/individual-analysis.dta")
+```
+
+There are some descriptive statistics about the data:
+
+```{r table1}
+kable(aggregate(cbind(cm_satis, inc, exp) ~ CountryName, data = country, FUN = mean))
+```
+
+And the main regression are shown in the table.
+
+```{r table2, results = "asis"}
+stargazer(
+  x1 <- lm(satis ~ age + age2, data = individual),
+  x2 <- lm(satis ~ age + age2 + factor(country), data = individual),
+  header = FALSE
+)
+```
+
+```{r inlinenumbers, results="hide"}
+ageatminsatis1 <- -coef(x1)["age"]/(2*coef(x1)["age2"])
+ageatminsatis2 <- -coef(x2)["age"]/(2*coef(x2)["age2"])
+```
+
+Figures 1 and 2 show some patterns.
+
+```{r figure1}
+ggplot(country, aes(x = inc, y = cm_satis)) + 
+  geom_point() + 
+  geom_text(aes(label = CountryName))
+```
+
+```{r figure1}
+ggplot(country, aes(x = exp, y = cm_satis)) + 
+  geom_point() + 
+  geom_text(aes(label = CountryName))
+```
+  
+To summarize, here are some main results. To summarize, here are some main results. 
+The estimated minimum SWB without country fixed effects is `r ageatminsatis1`.
+By contrast, the estimated minimum SWB with country fixed effects is `r ageatminsatis2`.
+\end{verbatim}
+
+
+\end{document}

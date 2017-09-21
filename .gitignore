@@ -17,3 +17,4 @@
 Activities/*.*
 !Activities/*.tex
 !Activities/*.pdf
+Misc/*
